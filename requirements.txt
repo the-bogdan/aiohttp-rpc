@@ -1,0 +1,3 @@
+aiohttp==3.7.4
+asyncpgsa==0.27.1
+sqlalchemy==1.4.3
