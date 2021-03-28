@@ -1,6 +1,12 @@
+import asyncio
+import uvloop
+
 from aiohttp import web
 from logger import logger
 from application import app
+
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 def run_server(host: str = '127.0.0.1', port: int = 8000) -> None:

@@ -7,7 +7,6 @@ from logging import handlers
 log_level = config['logs']['logs_level']
 logs_path = config['logs']['logs_path']
 
-
 if not os.path.exists(os.path.dirname(logs_path)):
     os.makedirs(os.path.dirname(logs_path))
 if not os.path.exists(logs_path):
@@ -25,7 +24,7 @@ logger.addHandler(stream_handler)
 rotating_file_handler = handlers.RotatingFileHandler(
     filename=logs_path,
     mode='a',
-    maxBytes=5*1024*1024,
+    maxBytes=5 * 1024 * 1024,
     backupCount=5
 )
 rotating_file_handler.setFormatter(format_str)

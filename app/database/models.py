@@ -1,4 +1,5 @@
 from sqlalchemy import (
+    text,
     Table,
     Column,
     String,
@@ -7,14 +8,11 @@ from sqlalchemy import (
     DateTime
 )
 
-
 metadata = MetaData()
-
 
 documents = Table('documents', metadata,
                   Column('id', Integer, primary_key=True),
                   Column('name', String),
-                  Column('created_at', DateTime),
-                  Column('updated_at', DateTime)
-)
-
+                  Column('created_at', DateTime, server_default=text('now()')),
+                  Column('updated_at', DateTime, server_default=text('now()'))
+                  )

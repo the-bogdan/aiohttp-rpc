@@ -1,10 +1,14 @@
+# its need for register handler and schemas and dont get circle import error
+import handlers
+import validation_schemas
+
 from aiohttp import web
-from rpc_handler import handle_rpc
-from database import init_pg_singleton, create_tables
+from database import create_tables
+from middlewares import middlewares_list
+from rps_request_handler import RPCHandler
 
 
-app = web.Application()
-
+app = web.Application(middlewares=middlewares_list)
 
 app.on_startup.append(create_tables)
-app.router.add_route('POST', '/rpc', handle_rpc)
+app.router.add_route('POST', '/rpc', RPCHandler.handle_rpc)
