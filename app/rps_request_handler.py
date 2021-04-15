@@ -7,7 +7,7 @@ from utils.custom_exceptions import ExecutionException
 
 class RPCHandler:
     """
-    Base class accumulate all rpc actions which are decorated by
+    Base class accumulate all rpc methods which are decorated by
     register_handler method and provide method for handle rpc request
     and make response
     """
@@ -15,14 +15,14 @@ class RPCHandler:
 
     @classmethod
     async def handle_rpc(cls, request: Request) -> Response:
-        """Method handle rpc action and params and call function for handling it"""
+        """Method handle rpc method and params and call function for handling it"""
         body = await cls._get_body(request)
         Validator.validate('request_body', body)
-        return await cls._handlers.get(body['action'])(body['params'], request['db_session'])
+        return await cls._handlers.get(body['method'])(body['params'], request['db_session'])
 
     @classmethod
     def register_handler(cls, func: Callable):
-        """Decorator which register function or method as rpc action handler"""
+        """Decorator which register function or method as rpc method handler"""
         cls._handlers[func.__name__] = func
         return func
 

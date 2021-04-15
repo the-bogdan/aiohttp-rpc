@@ -1,12 +1,12 @@
 from datetime import datetime
 from database import documents
-from sqlalchemy.orm import Session
 from rps_request_handler import Validator
 from rps_request_handler import RPCHandler
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @RPCHandler.register_handler
-async def get_document_by_id(params: dict, session: Session):
+async def get_document_by_id(params: dict, session: AsyncSession):
     """Get document by id from db and returns it as object"""
     Validator.validate('get_document_by_id', params)
     stmt = documents.select().where(documents.c.id == params['id'])
@@ -16,7 +16,7 @@ async def get_document_by_id(params: dict, session: Session):
 
 
 @RPCHandler.register_handler
-async def create_document(params: dict, session: Session):
+async def create_document(params: dict, session: AsyncSession):
     """Create document in db and returns it as object"""
     Validator.validate('create_document', params)
     stmt = documents.insert().values(**params).returning(documents)
@@ -26,7 +26,7 @@ async def create_document(params: dict, session: Session):
 
 
 @RPCHandler.register_handler
-async def update_document(params: dict, session: Session):
+async def update_document(params: dict, session: AsyncSession):
     """Update document by id in db and returns it as object"""
     Validator.validate('update_document', params)
     params['updated_at'] = datetime.now()
@@ -43,7 +43,7 @@ async def update_document(params: dict, session: Session):
 
 
 @RPCHandler.register_handler
-async def delete_document(params: dict, session: Session):
+async def delete_document(params: dict, session: AsyncSession):
     """Delete document by id in db and returns it as object"""
     Validator.validate('delete_document', params)
     stmt = documents.delete() \
@@ -58,7 +58,7 @@ async def delete_document(params: dict, session: Session):
 
 
 @RPCHandler.register_handler
-async def get_documents(params: dict, session: Session):
+async def get_documents(params: dict, session: AsyncSession):
     """Get all documents list"""
     Validator.validate('get_documents', params)
     stmt = documents.select().order_by(documents.c.updated_at)

@@ -7,18 +7,18 @@ class Validator:
     _schemas = dict()
 
     @classmethod
-    def schema(cls, action: str, schema: dict):
-        """Add new schema. The action must be equal to handler function name"""
-        if action in cls._schemas:
-            raise KeyError(f'JSON schema for action {action} already exists')
-        cls._schemas[action] = schema
+    def schema(cls, method: str, schema: dict):
+        """Add new schema. The method must be equal to handler function name"""
+        if method in cls._schemas:
+            raise KeyError(f'JSON schema for method {method} already exists')
+        cls._schemas[method] = schema
 
     @classmethod
-    def validate(cls, action, body):
-        """Validate data by action"""
-        schema = cls._schemas.get(action)
+    def validate(cls, method, body):
+        """Validate data by method"""
+        schema = cls._schemas.get(method)
         if not schema:
-            raise KeyError(f'JSON schema for action {action} does not exists')
+            raise KeyError(f'JSON schema for method {method} does not exists')
         try:
             validate(body, schema)
         except ValidationError as e:
